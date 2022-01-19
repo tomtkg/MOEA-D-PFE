@@ -89,9 +89,9 @@ function  [dmodel,perf] = dacefit(S,Y,regr,corr,theta0,lob,upb)
         ij(LL,:) = [repmat(k,m-k,1) (k+1:m)']; % indices for sparse matrix
         D(LL,:)  = repmat(S(k,:),m-k,1)-S(k+1:m,:); % differences between points
     end
-    if min(sum(abs(D),2) ) == 0
-        error('Multiple design sites are not allowed')
-    end
+    %if min(sum(abs(D),2) ) == 0
+    %    error('Multiple design sites are not allowed')
+    %end
     % Regression matrix
     F      = feval(regr, S);  
     [mF,p] = size(F);
