@@ -41,9 +41,9 @@ classdef MOEADPFE < ALGORITHM
             Population = Problem.Initialization();
             Z = min(Population.objs,[],1);
             
-            %% Set weight update generation, bifurcation point, and external population
-            G  = ceil(phi*Problem.maxFE/Problem.N);
-            BP = Problem.maxFE * floor(0.999/phi) * phi;
+            %% Set weight update FE, bifurcation point, and external population
+            updateFE = ceil(phi*Problem.maxFE/Problem.N)*Problem.N;
+            BP = floor((Problem.maxFE-1)/updateFE)*updateFE;
             EP = Population;
             
             %% Optimization
@@ -72,7 +72,7 @@ classdef MOEADPFE < ALGORITHM
                     if length(EP) > 5000
                         EP(1:length(EP)-5000) = [];
                     end
-                    if ~mod(ceil(Problem.FE/Problem.N),G)
+                    if ~mod(Problem.FE,updateFE)
                         % Estimate the Pareto front
                         objhat = estimatePF(EP.objs,validator,estimator);
                         % Update the weight vectors
